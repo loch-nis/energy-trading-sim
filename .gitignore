@@ -1,0 +1,64 @@
+
+### JetBrains Rider ###
+.idea/
+*.sln.iml
+
+### .NET / F# ###
+bin/
+obj/
+[Bb]uild/
+[Bb]uilds/
+artifacts/
+project.lock.json
+project.fragment.lock.json
+
+# Visual Studio cache/options
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+.nuget/
+packages/
+# Exclude build/ if you commit package sources
+!packages/build/
+*.nuspec
+project.lock.json
+project.assets.json
+
+# Rider specific
+*.DotSettings.user
+
+### Logs / Coverage ###
+*.log
+*.tlog
+*.cache
+*.coverage
+*.coveragexml
+TestResult*/
+TestResults/
+*.trx
+
+### OS files ###
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
