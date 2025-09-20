@@ -14,6 +14,7 @@ type Side = Buy | Sell
 
 type PowerUnit = W | Kw | Mw
 type EnergyUnit = Wh | Kwh | Mwh
+type FuelUnit = MMBtu | GJ | Nm3
 
 type Power = {
     value: float
@@ -25,40 +26,13 @@ type Energy = {
     unit: EnergyUnit
 }
 
-type WindFarm = {
-    id: Guid
-    name: string
-    area: Area
-    capacity: Power
+type HeatRate = {
+    value: float
+    input: FuelUnit
+    output: EnergyUnit
 }
 
-type SolarFarm = {
-    id: Guid
-    name: string
-    area: Area
-    capacity: Power
-}
 
-type GasFiredPowerPlant = {
-    id: Guid
-    name: string
-    area: Area
-    capacity: Power
-    startupCost: Money
-    // heatRateMWhPerMWh?
-    // variableCostEurPerMWh?
-}
-
-type Asset =
-    | Wind of WindFarm
-    | Solar of SolarFarm
-    | Gas of GasFiredPowerPlant
-
-type Producer = { // e.g. Ørsted
-    id: Guid
-    name: string
-    assets: Asset list
-}
 
 type OrderId = OrderId of Guid
 type Timestamp = Timestamp of DateTime
@@ -100,3 +74,54 @@ type State =
       cashBalance: Money
       lastPrice: Price option }
     
+
+
+type WindFarm = {
+    id: Guid
+    name: string
+    area: Area
+    capacity: Power
+}
+
+type SolarFarm = {
+    id: Guid
+    name: string
+    area: Area
+    capacity: Power
+}
+
+type GasFiredPowerPlant = {
+    id: Guid
+    name: string
+    area: Area
+    capacity: Power
+    startupCost: Money
+    heatRate: HeatRate
+}
+
+let variableCost (plant: GasFiredPowerPlant) (gasPrice: Price) (co2Price: Price option) : Price =
+    failwith "todo"
+    // perhaps too much complexity for this project?
+    // note: gasPrice must have unit MMBtu for it to return result in eur per Mwh
+
+type Asset =
+    | Wind of WindFarm
+    | Solar of SolarFarm
+    | Gas of GasFiredPowerPlant
+
+// todo figure out how to use the Producer in my simulation
+type Producer = { // e.g. Ørsted
+    name: string
+    assets: Asset list
+}
+
+
+// should these go in another file ?!
+
+let executeOrder (state: State) (order: Order) : State * Fill option =
+    failwith "todo make execute function"
+
+let run (events: Event list) : State * Fill list =
+    failwith "todo make runner function"
+    // takes a list of (sorted by timestamp) events that happen in a day
+    // returns the last state (of the Producer) as well as the orders filled 
