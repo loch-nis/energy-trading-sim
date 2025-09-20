@@ -2,45 +2,53 @@
 
 open System
 
-type Currency = DKK | EUR | USD
+type Currency =
+    | DKK
+    | EUR
+    | USD
 
 type Money = Money of decimal * Currency
 
 
+type Area =
+    | DK1
+    | DK2
+    | DK3
 
-type Area = DK1 | DK2 | DK3
+type Side =
+    | Buy
+    | Sell
 
-type Side = Buy | Sell
+type PowerUnit =
+    | W
+    | Kw
+    | Mw
 
-type PowerUnit = W | Kw | Mw
-type EnergyUnit = Wh | Kwh | Mwh
-type FuelUnit = MMBtu | GJ | Nm3
+type EnergyUnit =
+    | Wh
+    | Kwh
+    | Mwh
 
-type Power = {
-    value: float
-    unit: PowerUnit
-}
+type FuelUnit =
+    | MMBtu
+    | GJ
+    | Nm3
 
-type Energy = {
-    value: float
-    unit: EnergyUnit
-}
+type Power = { value: float; unit: PowerUnit }
 
-type HeatRate = {
-    value: float
-    input: FuelUnit
-    output: EnergyUnit
-}
+type Energy = { value: float; unit: EnergyUnit }
+
+type HeatRate =
+    { value: float
+      input: FuelUnit
+      output: EnergyUnit }
 
 
 
 type OrderId = OrderId of Guid
 type Timestamp = Timestamp of DateTime
 
-type Price = {
-    amount: Money
-    per: EnergyUnit
-}
+type Price = { amount: Money; per: EnergyUnit }
 
 type Order =
     { id: OrderId
@@ -73,31 +81,27 @@ type State =
     { netPosition: Energy
       cashBalance: Money
       lastPrice: Price option }
-    
+
+type SolarFarm =
+    { id: Guid
+      name: string
+      area: Area
+      capacity: Power }
+
+type WindFarm =
+    { id: Guid
+      name: string
+      area: Area
+      capacity: Power }
 
 
-type WindFarm = {
-    id: Guid
-    name: string
-    area: Area
-    capacity: Power
-}
-
-type SolarFarm = {
-    id: Guid
-    name: string
-    area: Area
-    capacity: Power
-}
-
-type GasFiredPowerPlant = {
-    id: Guid
-    name: string
-    area: Area
-    capacity: Power
-    startupCost: Money
-    heatRate: HeatRate
-}
+type GasFiredPowerPlant =
+    { id: Guid
+      name: string
+      area: Area
+      capacity: Power
+      startupCost: Money
+      heatRate: HeatRate }
 
 let variableCost (plant: GasFiredPowerPlant) (gasPrice: Price) (co2Price: Price option) : Price =
     failwith "todo"
@@ -109,19 +113,16 @@ type Asset =
     | Solar of SolarFarm
     | Gas of GasFiredPowerPlant
 
-// todo figure out how to use the Producer in my simulation
-type Producer = { // e.g. Ørsted
-    name: string
-    assets: Asset list
-}
+type Producer =
+    { name: string
+      assets: Asset list }
 
 
-// should these go in another file ?!
-
-let executeOrder (state: State) (order: Order) : State * Fill option =
+// should these two go in another file ?! which?
+let executeOrders (order: Order list) (state: State) : State * Fill list =
     failwith "todo make execute function"
 
-let run (events: Event list) : State * Fill list =
+let run (producer: Producer) (events: Event list) : State * Fill list =
     failwith "todo make runner function"
     // takes a list of (sorted by timestamp) events that happen in a day
-    // returns the last state (of the Producer) as well as the orders filled 
+    // returns the last state (of the Producer?) as well as the orders filled
